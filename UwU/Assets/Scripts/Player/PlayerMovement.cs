@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,10 +25,15 @@ public class PlayerMovement : MonoBehaviour
     public float dashingTime = 0.2f;
     public float dashingCooldown = 1f;
 
+    public float checkRadius = 0.2f; // The radius of the circle to detect if the player is near a fall-through area
+    public LayerMask fallLayerMask; // The layer mask to only detect collisions with fall-through areas
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private TrailRenderer tr;
+
+    private Tilemap map;
 
     void Update()
     {
@@ -85,6 +91,19 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Dash());
         }
 
+        if (Input.GetKey(KeyCode.S))
+        {
+            gameObject.layer = LayerMask.NameToLayer("PlayerFallThrough");
+        }
+        if(!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.Space))
+        {
+            gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            gameObject.layer = LayerMask.NameToLayer("PlayerFallThrough");
+        }
+
         Flip();
     }
 
@@ -100,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
     }
 
     private void Flip()
@@ -136,4 +155,13 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
+
+    /*public bool canFallThrough(Vector2 playerPos)
+    {
+        Vector3Int gridPosition = map.WorldToCell(worldPosition);
+
+        TileBase tile = map.GetTile(gridPosition);
+
+        bool canFallThrough = dataFromTiles
+    }*/
 }
