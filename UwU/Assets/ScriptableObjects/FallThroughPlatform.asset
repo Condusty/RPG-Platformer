@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FallThroughPlatform
   m_EditorClassIdentifier: 
   tiles: []
-  canFallThrough: 0
+  canFallThrough: 1
