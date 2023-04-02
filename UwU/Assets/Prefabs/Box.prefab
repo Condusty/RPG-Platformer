@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1099211353484676104}
   - component: {fileID: 1099211353484676107}
   - component: {fileID: 1099211353484676108}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Box
   m_TagString: Box
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1099211353484676103}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c489d13bc01f1d8429e284f2ec06b9f3, type: 3}
   m_Name: 

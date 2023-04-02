@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 8f;
     public float jumpingPower = 16f;
     private bool isFacingRight = true;
+    public float direction = 1;
 
     private bool isJumping;
 
@@ -118,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private bool IsGrounded()
-    {
+    { 
         return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
     }
 
@@ -126,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
+            direction *= -1;
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
