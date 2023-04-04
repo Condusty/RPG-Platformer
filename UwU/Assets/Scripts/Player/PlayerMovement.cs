@@ -12,8 +12,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isJumping;
 
-    private bool doubleJump;
-
     private float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
 
@@ -38,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Debug.DrawRay(groundCheck.position, -Vector2.up);
+        
 
         //dash
         if (isDashing)
@@ -65,29 +63,22 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
         }
-        //doubleJump
-        if (IsGrounded() && !Input.GetButton("Jump"))
-        {
-            doubleJump = false;
-        }
         //jump
-        if (!isJumping && jumpBufferCounter > 0f && coyoteTimeCounter > 0f || doubleJump == true)
+        if (IsGrounded() && jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            doubleJump = !doubleJump;
-
             jumpBufferCounter = 0f;
 
             StartCoroutine(JumpCooldown());
 
         }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f && IsGrounded())
+        /*if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f && IsGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
 
             coyoteTimeCounter = 0f;
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
@@ -121,8 +112,12 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        RaycastHit2D ray = Physics2D.Raycast(groundCheck.position, -Vector2.up, 1.5f);
-        if(ray.transform != null)
+        float distance = 0.5f;
+        Vector2 dir = new Vector2(0, -1);
+        int layerMask = 1;
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, dir, distance, layerMask);
+        Debug.DrawRay(transform.position, dir * distance);
+        if (hitInfo.collider != null)
         {
             return true;
         }
@@ -148,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator JumpCooldown()
     {
         isJumping = true;
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(.6f);
         isJumping = false;
     }
 

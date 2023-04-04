@@ -29,7 +29,7 @@ public class GrabObjects : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(rayPoint.position, new Vector2(playerMovement.direction, -1), rayDistance);
+        RaycastHit2D hitInfo = Physics2D.Raycast(rayPoint.position, new Vector2(playerMovement.direction, 0), rayDistance);
 
         if(hitInfo.collider != null && hitInfo.collider.gameObject.tag == "Object")
         {
