@@ -31,7 +31,7 @@ public class GrabObjects : MonoBehaviour
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(rayPoint.position, new Vector2(playerMovement.direction, -1), rayDistance);
 
-        if(hitInfo.collider != null && hitInfo.collider.gameObject.layer == layerIndex)
+        if(hitInfo.collider != null && hitInfo.collider.gameObject.tag == "Object")
         {
             //grab object
             if(Keyboard.current.eKey.wasPressedThisFrame && grabbedObject == null)
