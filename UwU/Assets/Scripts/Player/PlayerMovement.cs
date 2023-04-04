@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        Debug.DrawRay(groundCheck.position, -Vector2.up);
+
         //dash
         if (isDashing)
         {
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f && IsGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
 
@@ -104,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
         {
             gameObject.layer = LayerMask.NameToLayer("PlayerFallThrough");
         }
-
         Flip();
     }
 
@@ -119,8 +120,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private bool IsGrounded()
-    { 
-        return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+    {
+        RaycastHit2D ray = Physics2D.Raycast(groundCheck.position, -Vector2.up, 1.5f);
+        if(ray.transform != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     private void Flip()
